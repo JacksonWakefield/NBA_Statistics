@@ -7,28 +7,29 @@ import Scraper_Master
 
 import csv
 
-def Update_Player_Statistics():
+def Update_Player_Statistics(year):
     
     player_stats = {}
     player_reference = {}
     
     
     
-    with open('PlayerReference.json', 'r', encoding='utf8') as Player_Reference:
+    #with open('PlayerReference.json', 'r', encoding='utf8') as Player_Reference:
+    #    player_reference = json.load(Player_Reference)
+    with open('SunsReference.json', 'r', encoding='utf8') as Player_Reference:
         player_reference = json.load(Player_Reference)
-    
-    year = 2021
+
     
     urls = []
     
     for key in player_reference:
         urls.append("https://www.basketball-reference.com/" + player_reference[key] + "/gamelog/" + str(year) + "/")
     
-    columns = ["Date", "Team", "Opponent", "Home(0)/Away(1)", "Margin", "Minutes", "FGA", "FG Percentage", \
-               "3PA", "3P Percentage", "Rebounds", "Assists", "Steals", "Blocks", "Turnovers", "Fouls", "Points"]
+    columns = ["Date", "Team", "Opponent", "Home(0)/Away(1)", "Margin", "Minutes", "FGA", "FGM", \
+               "3PA", "3PM", "Rebounds", "Assists", "Steals", "Blocks", "Turnovers", "Fouls", "Points"]
     
-    soup_columns = ["date_game", "team_id", "opp_id", "game_location", "game_result", "mp", "fga", "fg_pct", \
-                    "fg3a", "fg3_pct", "trb", "ast", "stl", "blk", "tov", "pf", "pts"]
+    soup_columns = ["date_game", "team_id", "opp_id", "game_location", "game_result", "mp", "fga", "fg", \
+                    "fg3a", "fg3", "trb", "ast", "stl", "blk", "tov", "pf", "pts"]
     
     for url in urls:
     
@@ -46,7 +47,9 @@ def Update_Player_Statistics():
             if("Rk" in row.text):
                 continue
             
-            player_data_individual = []
+            player_data_individual = {}
+            
+            index = 0
             
             for column in soup_columns:
                 
@@ -68,22 +71,25 @@ def Update_Player_Statistics():
                     player_data_cell_text = player_data_cell_text[1:-1]
                     player_data_cell_text = player_data_cell_text.replace("(", "")
                 
-                player_data_individual.append(player_data_cell_text)
+                player_data_individual[columns[index]] = player_data_cell_text
+                index += 1
                 
             player_data_all.append(player_data_individual)
         
         player_stats[player_name] = player_data_all
+        
+        print(player_name)
        
-    
-    with open('player_data.csv', 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames = player_stats.keys)
+    for name in player_stats:
+        with open('player_data/'+ name + '.csv', 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames = columns)
+            #rint(player_stats.keys())
+            writer.writeheader()
         
-        writer.writeheader()
-        
-        for data in player_stats:
-            writer.writerow(data)
-            
-        csvfile.close()
+            for games in player_stats[name]:
+                writer.writerow(games)
+                
+            csvfile.close()
         
 
-Update_Player_Statistics()
+Update_Player_Statistics(2021)
