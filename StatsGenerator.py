@@ -38,6 +38,8 @@ def Update_Player_Statistics(year):
         
         try:
             player_name = player_soup.find(name = "h1", attrs = {"itemprop" : "name"}).text.split(" 20")[0][1:]
+            #annoying bit
+            player_name = player_name.split(" ")[0] + " " + player_name.split(" ")[1]
         except:
             print("Ignus says hi")
             continue
@@ -64,7 +66,8 @@ def Update_Player_Statistics(year):
                     player_data_cell_text = row.find(name="td", attrs = {"data-stat" : column}).text
                 except:
                     print(row.text)
-                #little adjustments
+                
+                #little adjustments to specific columns
                 if(column == "game_location"):
                     if(player_data_cell_text == ""):
                         player_data_cell_text = 0
@@ -73,7 +76,13 @@ def Update_Player_Statistics(year):
                 
                 elif(column == "game_result"):
                     player_data_cell_text = player_data_cell_text[1:-1]
-                    player_data_cell_text = player_data_cell_text.replace("(", "")
+                    #this is certainly annoying to look at
+                    player_data_cell_text = player_data_cell_text.replace("(", "").replace("+", "").replace(" ", "")
+                
+                elif(column == "mp"):
+                    mins = player_data_cell_text.split(':')
+                    mins[1] = str(round((int(mins[1]) / 60), 2))
+                    player_data_cell_text = mins[0] + mins[1][1:]
                 
                 player_data_individual[columns[index]] = player_data_cell_text
                 index += 1

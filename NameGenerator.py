@@ -40,12 +40,13 @@ def Update_Name_URLs():
             
             #Ignore column headers (<a> without href links)
             if(url_name_tag != None):
-                name = url_name_tag.text
+                name = url_name_tag.text.split(" ")[0] + " " + url_name_tag.text.split(" ")[1]
                 
                 href = url_name_tag['href'].replace(".html", "")
                 
                 #add to dictionary
-                name_urls[name] = href
+                if(href not in name_urls.values()):
+                    name_urls[name] = href
     
     #write file contents to json
     

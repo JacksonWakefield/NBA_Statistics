@@ -16,6 +16,7 @@ def Scrape_From_Source(url):
     except:
         print("URL was invalid, please give valid URL")
         warnings.warn("Invalid URL: " + url)
+        return -1
     
     soup = bs(page.content, 'html.parser')
     
