@@ -53,65 +53,54 @@ def getPlayerAverage(player_name, category_name, digits_to_round = 2):
     except:
         raise Exception('Attempted to get average of non-numeric column')
 
-#replaces specific text in all csvs in player_data folder --> subject = target
-def replaceAllInPlayerData(subject, target):
-    names = getPlayerNames()
+#returns total from all games in a specific category
+def getPlayerTotal(player_name, category_name, digits_to_round = 2):
+    playerFrame = getPlayerDataFrame(player_name)
     
+    category_data = []
+    try:
+        category_data = playerFrame[category_name]
+    except:
+        raise Exception('Could not find category: "' + category_name + '" for player: ' + player_name)
     
-    for name in names:
-        path = "../player_data/" + name + ".csv"
-        
-        new_file_content = ""
-        
-        #read and create string with new file
-        fin = open(path, "r+", encoding='utf8')
-        
-        for line in fin:
-            stripped_line = line.strip()
-            new_line = stripped_line.replace(subject, target).replace(" ", "")
-            new_file_content += new_line + "\n"
-        
-        fin.close()
-        
-        #delete contents and write back
-        fout = open(path, "w", encoding='utf8')
-        
-        fout.truncate(0)
-        fout.write(new_file_content)
-        fout.close()
+    try:
+        return round(category_data.sum(), digits_to_round)
+    except:
+        raise Exception('Attempted to get total of non-numeric column')
 
-#build the allPlayerAverage CSV
-def buildAllPlayerAverage(digits_to_round = 2):
-    path = "../allPlayerAverage.csv"
+#returns the maximum value from all games in a specific category
+def getPlayerMax(player_name, category_name, digits_to_round = 2):
+    playerFrame = getPlayerDataFrame(player_name)
     
-    #taken from StatsGenerator (does not include non-numeric columns)
-    columns = ["Name", "Margin", "Minutes", "FGA", "FGM", "3PA", "3PM", "Rebounds", "Assists", "Steals", "Blocks", "Turnovers", "Fouls", "Points"]
+    category_data = []
+    try:
+        category_data = playerFrame[category_name]
+    except:
+        raise Exception('Could not find category: "' + category_name + '" for player: ' + player_name)
     
-    playerNames = getPlayerNames()
+    try:
+        return round(category_data.max(), digits_to_round)
+    except:
+        raise Exception('Attempted to get max of non-numeric column')
+
+#returns minimum value from all games in a specific category
+def getPlayerMin(player_name, category_name, digits_to_round = 2):
+    playerFrame = getPlayerDataFrame(player_name)
     
-    allPlayerAverage_dict = {}
+    category_data = []
+    try:
+        category_data = playerFrame[category_name]
+    except:
+        raise Exception('Could not find category: "' + category_name + '" for player: ' + player_name)
     
-    #feelin' loopy
-    for name in playerNames:
-        playerDataIndividual = {}
-        for column in columns:
-            
-            if(column == "Name"):
-                playerDataIndividual[column] = name
-            else:
-                average = getPlayerAverage(name, column, digits_to_round)
-                playerDataIndividual[column] = average
-        
-        allPlayerAverage_dict[name] = playerDataIndividual
+    try:
+        return round(category_data.min(), digits_to_round)
+    except:
+        raise Exception('Attempted to get min of non-numeric column')
+
+
+
     
-    with open(path, 'w', encoding='utf-8', newline='') as averageFile:
-        averageFile.truncate(0)
-        
-        writer = csv.DictWriter(averageFile, fieldnames=columns)
-        writer.writeheader()
-        
-        for name in playerNames:
-            writer.writerow(allPlayerAverage_dict[name])
 
             
             

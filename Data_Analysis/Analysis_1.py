@@ -1,13 +1,31 @@
+#Contains some basic plotting functions
+
 import Analysis_Tools as at
+import pandas as pd
 
-names = at.getPlayerNames()
+#types of charts - taken from pd docs
+#represents type_of_chart parameter
+'''
+The kind of plot to produce:
 
-#durantFrame = dm.getPlayerDataFrame("Stephen Curry")
+‘line’ : line plot (default)
+‘bar’ : vertical bar plot
+‘barh’ : horizontal bar plot
+‘hist’ : histogram
+‘box’ : boxplot
+‘kde’ : Kernel Density Estimation plot
+‘density’ : same as ‘kde’
+‘area’ : area plot
+‘pie’ : pie plot
+‘scatter’ : scatter plot
+‘hexbin’ : hexbin plot.
+'''
 
-#durantFrame.plot(kind = "line", x = "Date", y = "Minutes", figsize = (10, 10))
+#plots head/tail average of Y = category, X = name for any stat
+#
+def plotSingleAxisAverage(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "line"):
+    dataframe = at.getAllPlayerAverageDataFrame().sort_values(Y, ascending = not head).head(numNames)
+    dataframe.plot(x = "Name", y = Y, figsize = (sizeX, sizeY), kind = type_of_chart)
 
-playerAverageDataFrame = at.getAllPlayerAverageDataFrame()
-
-playerPointsHead = playerAverageDataFrame.sort_values('Points', ascending=False).head(10)
-
-playerPointsHead.plot(x='Name', y='Points', kind='bar', figsize=(10, 10))
+plotSingleAxisAverage("Assists", numNames = 10, type_of_chart="bar")
+    
