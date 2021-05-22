@@ -22,10 +22,16 @@ The kind of plot to produce:
 '''
 
 #plots head/tail average of Y = category, X = name for any stat
-#
+#example:
+#plotSingleAxisAverage("Assists", numNames = 10, type_of_chart="bar")
 def plotSingleAxisAverage(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "line"):
     dataframe = at.getAllPlayerAverageDataFrame().sort_values(Y, ascending = not head).head(numNames)
     dataframe.plot(x = "Name", y = Y, figsize = (sizeX, sizeY), kind = type_of_chart)
 
-plotSingleAxisAverage("Assists", numNames = 10, type_of_chart="bar")
-    
+
+#plots head/tail total of Y = category, X = name for any stat
+#example:
+#plotSingleAxisTotal("Assists", numNames = 10, type_of_chart="bar")
+def plotSingleAxisTotal(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "line"):
+    dataframe = at.getAllPlayerTotalDataFrame().sort_values(Y, ascending = not head).head(numNames)
+    dataframe.plot(x = "Name", y = Y, figsize = (sizeX, sizeY), kind = type_of_chart)

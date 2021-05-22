@@ -22,6 +22,14 @@ def getAllPlayerAverageDataFrame():
     except:
         raise Exception('Could not find: ' + path + ", consider running buildAllPlayerAverage in Analysis_Tools.py")
 
+def getAllPlayerTotalDataFrame():
+    path = "../allPlayerTotal.csv"
+    file = open(path, 'r', encoding='utf-8')
+    try:
+        return pd.read_csv(file)
+    except:
+        raise Exception('Could not find: ' + path + ", consider running buildAllPlayerAverage in Analysis_Tools.py")
+
 #ALL = all player names
 #PHO = all players on the Phoenix Suns
 #Returns array of all player names in the Player_Data json
