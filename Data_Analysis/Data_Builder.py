@@ -93,3 +93,4 @@ def replaceAllInPlayerData(subject, target):
         fout.truncate(0)
         fout.write(new_file_content)
         fout.close()
+

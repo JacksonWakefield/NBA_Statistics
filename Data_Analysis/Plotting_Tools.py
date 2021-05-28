@@ -9,7 +9,7 @@ import pandas as pd
 The kind of plot to produce:
 
 ‘line’ : line plot (default)
-‘bar’ : vertical bar plot
+‘bar’ : vertical bar plot ----> probably best for this type of plot
 ‘barh’ : horizontal bar plot
 ‘hist’ : histogram
 ‘box’ : boxplot
@@ -24,7 +24,7 @@ The kind of plot to produce:
 #plots head/tail average of Y = category, X = name for any stat
 #example:
 #plotSingleAxisAverage("Assists", numNames = 10, type_of_chart="bar")
-def plotSingleAxisAverage(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "line"):
+def plotSingleAxisAverage(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "bar"):
     dataframe = at.getAllPlayerAverageDataFrame().sort_values(Y, ascending = not head).head(numNames)
     dataframe.plot(x = "Name", y = Y, figsize = (sizeX, sizeY), kind = type_of_chart)
 
@@ -32,6 +32,8 @@ def plotSingleAxisAverage(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10,
 #plots head/tail total of Y = category, X = name for any stat
 #example:
 #plotSingleAxisTotal("Assists", numNames = 10, type_of_chart="bar")
-def plotSingleAxisTotal(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "line"):
+def plotSingleAxisTotal(Y, numNames = 10, head = True, sizeX = 10, sizeY = 10, type_of_chart = "bar"):
     dataframe = at.getAllPlayerTotalDataFrame().sort_values(Y, ascending = not head).head(numNames)
     dataframe.plot(x = "Name", y = Y, figsize = (sizeX, sizeY), kind = type_of_chart)
+
+plotSingleAxisTotal("Points")

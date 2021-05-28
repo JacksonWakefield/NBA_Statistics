@@ -106,6 +106,19 @@ def getPlayerMin(player_name, category_name, digits_to_round = 2):
     except:
         raise Exception('Attempted to get min of non-numeric column')
 
+#margin > 0 every time would look uglier
+def didWin(margin):
+    return margin > 0
+
+#returns number of games won by a player
+#DOES NOT COUNT TEAM WINS WHERE PLAYER DID NOT PLAY
+def getPlayerWins(playerName):
+    df_col = getPlayerDataFrame(playerName)['Margin']
+    wins = 0
+    for margin in df_col:
+        if (int(margin) > 0):
+            wins = wins + 1
+    return wins
 
 
     
