@@ -27,10 +27,10 @@ def Update_Player_Statistics(year):
         urls.append("https://www.basketball-reference.com/" + player_reference[key] + "/gamelog/" + str(year) + "/")
     
     columns = ["Date", "Team", "Opponent", "Home(0)/Away(1)", "Margin", "Minutes", "FGA", "FGM", \
-               "3PA", "3PM", "Rebounds", "Assists", "Steals", "Blocks", "Turnovers", "Fouls", "Points"]
+               "3PA", "3PM", "FT", "FTA","ORB","TRB", "Assists", "Steals", "Blocks", "Turnovers", "Fouls", "Points", "p/m"]
     
     soup_columns = ["date_game", "team_id", "opp_id", "game_location", "game_result", "mp", "fga", "fg", \
-                    "fg3a", "fg3", "trb", "ast", "stl", "blk", "tov", "pf", "pts"]
+                    "fg3a", "fg3", "ft", "fta","orb", "trb", "ast", "stl", "blk", "tov", "pf", "pts", "plus_minus"]
     
     for url in urls:
     
@@ -76,6 +76,10 @@ def Update_Player_Statistics(year):
                 
                 elif(column == "game_result"):
                     player_data_cell_text = player_data_cell_text[1:-1]
+                    #this is certainly annoying to look at
+                    player_data_cell_text = player_data_cell_text.replace("(", "").replace("+", "").replace(" ", "")
+                    
+                elif(column == "plus_minus"):
                     #this is certainly annoying to look at
                     player_data_cell_text = player_data_cell_text.replace("(", "").replace("+", "").replace(" ", "")
                 

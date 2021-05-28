@@ -120,6 +120,32 @@ def getPlayerWins(playerName):
             wins = wins + 1
     return wins
 
+#return top 10 average stat performers
+def getTopTenAverage(category_name, num_players, bottom):
+    df_avg = getAllPlayerAverageDataFrame()
+        
+    try:
+        df_avg = df_avg.sort_values(by=category_name, ascending=bottom)
+        df_avg = df_avg.head(n=num_players)
+        return df_avg
+    except:
+        raise Exception('Could not find category: "' + category_name + '"')
+ 
+#return top 10 total stat performers
+def getTopTenTotal(category_name, num_players, bottom):
+    df_total = getAllPlayerTotalDataFrame()
+    
+    try:
+        df_total = df_total.sort_values(by=category_name, ascending=bottom)
+        df_total = df_total.head(n=num_players)
+        return df_total
+    except:
+        raise Exception('Could not find category: "' + category_name + '"')
+       
+print(getTopTenAverage("Points", 15, False))
+print(getTopTenTotal("Points", 15, False))
+    
+
 
     
 
