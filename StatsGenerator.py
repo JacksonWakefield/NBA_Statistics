@@ -115,4 +115,6 @@ def write_csv(name, columns, player_stats):
         csvfile.close()
         
 
+
 Update_Player_Statistics(2021)
+
