@@ -144,7 +144,7 @@ def getTopTenTotal(category_name, num_players, bottom):
        
 print(getTopTenAverage("Points", 15, False))
 print(getTopTenTotal("Points", 15, False))
-    
+print(getTopTenAverage("Margin", 5, False))
 
 
     
