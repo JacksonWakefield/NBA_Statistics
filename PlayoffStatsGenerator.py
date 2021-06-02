@@ -46,7 +46,10 @@ def Update_Player_Statistics(year):
         
         player_data_all = []
         
-        player_data_rows = player_soup.find(name="div", attrs = {"id": "all_pgl_basic_playoffs"}).findAll(name="tr")
+        try:
+            player_data_rows = player_soup.find(name="div", attrs = {"id": "all_pgl_basic_playoffs"}).findAll(name="tr")
+        except:
+            print(player_name + " does not have playoff data")
         
         for row in player_data_rows:
             
